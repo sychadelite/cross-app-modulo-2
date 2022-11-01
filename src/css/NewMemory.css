@@ -1,0 +1,29 @@
+.box {
+    border-color: #403E39;
+    border-width: thin;
+    border-style: solid;
+    border-radius: 3px;
+}
+
+.image-preview {
+    border: 1px dashed #999999;
+    padding: 2px;
+    width: 14rem;
+    height: 14rem;
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex.justify-center {
+    justify-content: center;
+}
