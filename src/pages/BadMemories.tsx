@@ -1,26 +1,13 @@
 import { IonPage, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardContent, IonIcon, IonButton, getPlatforms, useIonViewWillEnter, useIonViewWillLeave, IonFab, IonFabButton, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow } from "@ionic/react";
 import { add } from 'ionicons/icons';
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import MemoriesContext from "../data/memories-context";
 
 const BadMemories: React.FC = () => {
     var [counter, setCounter] = useState(0); 
     var [device] = useState(getPlatforms());
-    const [windowSize, setWindowSize] = useState(getWindowSize());
     const memoriesCtx = useContext(MemoriesContext);
     const goodMemories = memoriesCtx.memories.filter(memory => memory.type === 'bad')
-
-    useEffect(() => {
-        function handleWindowResize() {
-            setWindowSize(getWindowSize());
-        }
-
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, []);
 
 
     useIonViewWillEnter(() => {
@@ -33,12 +20,6 @@ const BadMemories: React.FC = () => {
         if(counter === 0) {            
         }
     });
-
-
-    function getWindowSize() {
-        const {innerWidth, innerHeight} = window;
-        return {innerWidth, innerHeight};
-    }
     
 
     return (
