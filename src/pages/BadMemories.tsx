@@ -1,12 +1,14 @@
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardContent, IonIcon, IonButton, getPlatforms, useIonViewWillEnter, useIonViewWillLeave, IonFab, IonFabButton } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardContent, IonIcon, IonButton, getPlatforms, useIonViewWillEnter, useIonViewWillLeave, IonFab, IonFabButton, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow } from "@ionic/react";
 import { add } from 'ionicons/icons';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import MemoriesContext from "../data/memories-context";
 
-const GoodMemories: React.FC = () => {
+const BadMemories: React.FC = () => {
     var [counter, setCounter] = useState(0); 
     var [device] = useState(getPlatforms());
     const [windowSize, setWindowSize] = useState(getWindowSize());
-
+    const memoriesCtx = useContext(MemoriesContext);
+    const goodMemories = memoriesCtx.memories.filter(memory => memory.type === 'bad')
 
     useEffect(() => {
         function handleWindowResize() {
@@ -59,6 +61,29 @@ const GoodMemories: React.FC = () => {
                         <h2>Hope you won't have bad memories</h2>
                     </IonCardContent>
                 </IonCard>
+
+                <IonGrid>
+                    {goodMemories.length === 0 && (
+                        <IonRow>
+                            <IonCol className="ion-text-center">
+                                <h2>No bad memories found.</h2>
+                            </IonCol>
+                        </IonRow>
+                    )}
+                    {goodMemories.map(memory => (
+                        <IonRow key={memory.id}>
+                            <IonCol>
+                                <IonCard>
+                                    <img src={memory.base64Url} alt={memory.title} />
+                                    <IonCardHeader>
+                                        <IonCardTitle>{memory.title}</IonCardTitle>
+                                    </IonCardHeader>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
+                    ))}
+                </IonGrid>
+
                 {device[0] !== 'iphone' ?
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
                     <IonFabButton routerLink={'/tabs/create/memories'}>
@@ -71,4 +96,4 @@ const GoodMemories: React.FC = () => {
     )
 };
 
-export default GoodMemories;
+export default BadMemories;

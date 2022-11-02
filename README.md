@@ -9,6 +9,9 @@ Ionic based project that contains useful components with features for the basic 
 ## module error
 - create a new project from ionic start and then replace the created files with this repository
 - capacitor: https://capacitorjs.com/docs/getting-started
+- follow object in capacitor.config.json/ts
+- @capacitor/filesystem: https://capacitorjs.com/docs/apis/filesystem
+- @ionic/react-hooks/filesystem: npm i @ionic/react-hooks --legacy-peer-deps
 
 ## feature
 - Tabs Views

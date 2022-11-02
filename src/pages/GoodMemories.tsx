@@ -1,13 +1,16 @@
-import { IonPage, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardContent, IonIcon, IonButton, useIonViewWillEnter, useIonViewWillLeave, IonFab, IonFabButton } from "@ionic/react";
+import { IonPage, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardContent, IonIcon, IonButton, useIonViewWillEnter, useIonViewWillLeave, IonFab, IonFabButton, IonGrid, IonCol, IonRow, IonCardHeader, IonCardTitle } from "@ionic/react";
 import { add } from 'ionicons/icons';
 import { getPlatforms } from '@ionic/react';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import MemoriesContext from "../data/memories-context";
 
 const GoodMemories: React.FC = () => {
     var [counter, setCounter] = useState(0);  
     var [device] = useState(getPlatforms());
     const [count, setCount] = useState(0);
     const [windowSize, setWindowSize] = useState(getWindowSize());
+    const memoriesCtx = useContext(MemoriesContext);
+    const goodMemories = memoriesCtx.memories.filter(memory => memory.type === 'good')
     
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
@@ -68,10 +71,33 @@ const GoodMemories: React.FC = () => {
                         </IonButton>
                     </IonCardContent>
                     <IonCardContent className="ion-text-center ion-margin-bottom">
-                        <h2>Width: {windowSize.innerWidth}</h2>
-                        <h2>Height: {windowSize.innerHeight}</h2>
+                        <h2>Screen Width: {windowSize.innerWidth}</h2>
+                        <h2>Screen Height: {windowSize.innerHeight}</h2>
                     </IonCardContent>
                 </IonCard>
+
+                <IonGrid>
+                    {goodMemories.length === 0 && (
+                        <IonRow>
+                            <IonCol className="ion-text-center">
+                                <h2>No good memories found.</h2>
+                            </IonCol>
+                        </IonRow>
+                    )}
+                    {goodMemories.map(memory => (
+                        <IonRow key={memory.id}>
+                            <IonCol>
+                                <IonCard>
+                                    <img src={memory.base64Url} alt={memory.title} />
+                                    <IonCardHeader>
+                                        <IonCardTitle>{memory.title}</IonCardTitle>
+                                    </IonCardHeader>
+                                </IonCard>
+                            </IonCol>
+                        </IonRow>
+                    ))}
+                </IonGrid>
+
                 {device[0] !== 'iphone' ?
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
                     <IonFabButton routerLink={'/tabs/create/memories'}>
